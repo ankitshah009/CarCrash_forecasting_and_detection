@@ -9,12 +9,14 @@ Todo list
 
 
 * [ ] Peparation for stage 2 of the annotation process.
-  * [ ] Cut out the selected segments from stage 1.
-  * [ ] Make statistics of the segments from stage 1.
+  * [x] Cut out the selected segments from stage 1.
+  * [0.0%] Make statistics of the segments from stage 1.
   * [ ] Write annotation guideline for spatio-temporal annotation process.
     * [ ] Address the difficulties and diversity in the data.
   * [ ] Testing the annotation pipeline for stage 2 ourselves.
-  * [ ] Hiring or find more annotators.
+    * [ ] Decide the pipeline.
+    * [ ] Choose the tools.
+  * [ ] Hire or find more annotators.
   
 
 * [ ] Stage 2 of the annotation process.
