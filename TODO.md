@@ -1,7 +1,7 @@
 Todo list
 =====
 
-* [93.91%] Stage 1 of the annotation process.
+* [99.57%] Stage 1 of the annotation process.
   * [ ] Review all data in https://drive.google.com/drive/u/1/folders/1Y1h7apbfYd7nNWuKZVPj7lov5YONC1aJ and find the segments which contain
     * CCTV camera footage
     * At least one accident
