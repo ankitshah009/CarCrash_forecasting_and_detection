@@ -1,0 +1,5 @@
+opencv-contrib-python
+matplotlib
+IPython[all]
+jupyter
+notebook
