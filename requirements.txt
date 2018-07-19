@@ -3,3 +3,6 @@ matplotlib
 IPython[all]
 jupyter
 notebook
+scipy
+pandas
+scikit-learn
