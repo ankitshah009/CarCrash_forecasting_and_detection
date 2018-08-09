@@ -6,6 +6,10 @@ from glob import glob
 from time import time
 
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from matplotlib import patches,  lines
+from matplotlib.patches import Polygon
+import colorsys, random
 
 
 def interpolation(data, index_timeseries, method="linear"):
@@ -102,4 +106,77 @@ def cross_validation_folds(idx, n_folds=4, test_size=0.33, random_state=42):
     return folds
 
 
+def draw_images(img, boxes, labels, attributes, colors, scores=None):
+    """
+    Draw images with bounding boxes and labels.
+    :param img:
+    :param boxes:
+    :param labels:
+    :param attributes:
+    :param colors:
+    :param scores:
+    :return:
+    """
+    # number of boxes
+    n = len(boxes)
+    _, ax = plt.subplots(1, figsize=(8,4))
+    ax.axis("off")
+    for i in range(n):
+        color = colors[i]
+        label = labels[i]
+        attr = attributes[i]
+        try:
+            score = scores[i]
+        except:
+            score = None
+        y1, x1, y2, x2 = boxes[i]
+        if label not in ["FarRegion", "CrowdRegion"]:
+            p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=2,
+                                alpha=0.7, edgecolor=color, facecolor='none')
+        else:
+            p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, fill=True)
+        ax.add_patch(p)
 
+        # Label
+        caption = "{} {} {:.3f}".format(label, attr, score) if score else "{} {}".format(label, attr)
+        ax.text(x1-4, y1 + 8, caption,
+                color='w', size=8, backgroundcolor="none")
+    ax.imshow(img)
+    #plt.show()
+    return plt.gcf()
+
+
+def read_vatic(fpath):
+    annotations = {}
+    with open(fpath) as fp:
+        lines = fp.readlines()
+        for line in lines:
+            parts = line.split(" ")
+            frame = {
+                "box": [int(parts[2]), int(parts[1]), int(parts[4]), int(parts[3])],
+                "attribute": "",
+                "visible": (int(parts[6]) == 0)
+            }
+            if len(parts) > 10:
+                frame["attribute"] = parts[10].strip().strip('\"')
+            if int(parts[0]) not in annotations:
+                annotations[int(parts[0])] = {"frames": {int(parts[5]): frame}, "label": parts[9].strip().strip('\"')}
+            else:
+                if parts[9].strip().strip('\"') != annotations[int(parts[0])]["label"]:
+                    log.error("An illegal track")
+                annotations[int(parts[0])]["frames"][int(parts[5])] = frame
+    fp.close()
+    return annotations
+
+
+def random_colors(N, bright=True):
+    """
+    Generate random colors.
+    To get visually distinct colors, generate them in HSV space then
+    convert to RGB.
+    """
+    brightness = 1.0 if bright else 0.7
+    hsv = [(i / N, 1, brightness) for i in range(N)]
+    colors = list(map(lambda c: colorsys.hsv_to_rgb(*c), hsv))
+    random.shuffle(colors)
+    return colors
