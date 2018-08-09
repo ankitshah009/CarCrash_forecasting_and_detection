@@ -106,7 +106,7 @@ def cross_validation_folds(idx, n_folds=4, test_size=0.33, random_state=42):
     return folds
 
 
-def draw_images(img, boxes, labels, attributes, colors, scores=None):
+def draw_images(img, boxes, labels, attributes, colors, track_idx, scores=None, show_id=True):
     """
     Draw images with bounding boxes and labels.
     :param img:
@@ -114,6 +114,7 @@ def draw_images(img, boxes, labels, attributes, colors, scores=None):
     :param labels:
     :param attributes:
     :param colors:
+    :param track_idx:
     :param scores:
     :return:
     """
@@ -125,6 +126,7 @@ def draw_images(img, boxes, labels, attributes, colors, scores=None):
         color = colors[i]
         label = labels[i]
         attr = attributes[i]
+        id = track_idx[i]
         try:
             score = scores[i]
         except:
@@ -138,7 +140,10 @@ def draw_images(img, boxes, labels, attributes, colors, scores=None):
         ax.add_patch(p)
 
         # Label
-        caption = "{} {} {:.3f}".format(label, attr, score) if score else "{} {}".format(label, attr)
+        if show_id:
+            caption = "ID {}: {} {} {:.3f}".format(id, label, attr, score) if score else "ID {}: {} {}".format(id, label, attr)
+        else:
+            caption = "{} {} {:.3f}".format(label, attr, score) if score else "{} {}".format(label, attr)
         ax.text(x1-4, y1 + 8, caption,
                 color='w', size=8, backgroundcolor="none")
     ax.imshow(img)
