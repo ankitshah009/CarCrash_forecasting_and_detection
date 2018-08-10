@@ -6,4 +6,4 @@
 
 3. The tool for spatio-temporal annotations: https://github.com/jldowns/vatic-docker-contrib
 
-![Annotation](./data/1407_annotated/0.jpg)
+![Annotation](./data/1407.gif)
