@@ -2,7 +2,7 @@
 
 1. The tools for initial investigations: https://github.com/mental689/django-survey
 
-2. The tool for temporal annotations: https://github.com/antingshen/BeaverDam
+2. (Jean-Baptiste and Ankit's idea) The tool for temporal annotations: https://github.com/antingshen/BeaverDam
 
 3. The tool for spatio-temporal annotations: https://github.com/jldowns/vatic-docker-contrib
 
