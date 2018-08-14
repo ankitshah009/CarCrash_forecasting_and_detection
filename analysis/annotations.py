@@ -174,6 +174,30 @@ def read_vatic(fpath):
     return annotations
 
 
+def find_boundary(annotations):
+    separators = []
+    for anno in annotations:
+        if annotations[anno]["label"] == "Separator":
+            separators.append(anno)
+    if len(separators) > 2:
+        log.info("More than two separators. Only first and last separators are counted.")
+    if len(separators) == 0:
+        return [0, -1] # the whole video is counted
+    # Find the boundary of the segment
+    intervals = []
+    for anno in separators:
+        fidx = []
+        frames = annotations[anno]["frames"]
+        for fid in frames:
+            if frames[fid]["visible"]:
+                fidx.append(fid)
+        intervals.append([min(fidx), max(fidx)])
+    intervals = np.array(intervals)
+    if len(separators) == 1:
+        return [0,np.min(intervals[:,0])]
+    return [np.min(intervals[:,0]), np.max(intervals[:,1])]
+
+
 def random_colors(N, bright=True):
     """
     Generate random colors.
@@ -185,3 +209,5 @@ def random_colors(N, bright=True):
     colors = list(map(lambda c: colorsys.hsv_to_rgb(*c), hsv))
     random.shuffle(colors)
     return colors
+
+
