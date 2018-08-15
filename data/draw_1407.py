@@ -13,13 +13,14 @@ nf = len(image_paths)
 if not os.path.exists("1407_annotated"):
     os.makedirs("1407_annotated")
 a = read_vatic("1407.txt")
-cs = random_colors(N=nf, bright=True)
+cs = random_colors(N=len(a), bright=True)
 for i in range(nf):
     img = imread(image_paths[i])
     attrs = []
     boxes = []
     labels = []
     colors = []
+    tidx = []
     j = 0
     for t in a:
         for f in a[t]["frames"]:
@@ -27,10 +28,11 @@ for i in range(nf):
                 boxes.append(a[t]["frames"][f]["box"])
                 attrs.append(a[t]["frames"][f]["attribute"])
                 labels.append(a[t]["label"])
-                colors.append(cs[j])
+                colors.append(cs[t])
+                tidx.append(t)
                 j += 1
                 break
         j += 1
     log.info(len(boxes))
-    fig = draw_images(img, boxes, labels, attrs, colors)
+    fig = draw_images(img, boxes, labels, attrs, colors, tidx)
     fig.savefig("1407_annotated/{}.jpg".format(i), dpi=300)
