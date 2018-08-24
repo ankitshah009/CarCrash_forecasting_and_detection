@@ -174,6 +174,14 @@ def read_vatic(fpath):
     return annotations
 
 
+def is_unusual_track(track):
+    frames = track["frames"]
+    for fr in frames:
+        if fr["attribute"] == "Colliding":
+            return True
+    return False
+
+
 def find_boundary(annotations):
     separators = []
     for anno in annotations:
