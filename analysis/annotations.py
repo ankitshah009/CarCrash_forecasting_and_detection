@@ -1,15 +1,15 @@
-import pandas as pd
-import numpy as np
-import cv2, os
-import glog as log
-from glob import glob
+import colorsys
+import random
 from time import time
 
-from sklearn.model_selection import train_test_split
+import cv2
+import glog as log
 import matplotlib.pyplot as plt
-from matplotlib import patches,  lines
-from matplotlib.patches import Polygon
-import colorsys, random
+import numpy as np
+import os, csv
+import pandas as pd
+from matplotlib import patches
+from sklearn.model_selection import train_test_split
 
 
 def interpolation(data, index_timeseries, method="linear"):
@@ -174,6 +174,14 @@ def read_vatic(fpath):
     return annotations
 
 
+def is_unusual_track(track):
+    frames = track["frames"]
+    for fr in frames:
+        if fr["attribute"] == "Colliding":
+            return True
+    return False
+
+
 def find_boundary(annotations):
     separators = []
     for anno in annotations:
@@ -181,7 +189,7 @@ def find_boundary(annotations):
             separators.append(anno)
     if len(separators) > 2:
         log.info("More than two separators. Only first and last separators are counted.")
-    if len(separators) == 0:
+    if len(separators) < 2: # even with one separator, the whole video will be counted.
         return [0, -1] # the whole video is counted
     # Find the boundary of the segment
     intervals = []
@@ -193,9 +201,7 @@ def find_boundary(annotations):
                 fidx.append(fid)
         intervals.append([min(fidx), max(fidx)])
     intervals = np.array(intervals)
-    if len(separators) == 1:
-        return [0,np.min(intervals[:,0])]
-    return [np.min(intervals[:,0]), np.max(intervals[:,1])]
+    return [np.min(intervals[:,0]), np.max(intervals[:,0])]
 
 
 def random_colors(N, bright=True):
@@ -209,5 +215,7 @@ def random_colors(N, bright=True):
     colors = list(map(lambda c: colorsys.hsv_to_rgb(*c), hsv))
     random.shuffle(colors)
     return colors
+
+
 
 
