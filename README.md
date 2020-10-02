@@ -61,3 +61,17 @@ Where `path` is the CSV files containing the annotations of test set and `parser
 ### Website - 
 
 [Accident Forecasting Traffic Camera](https://ankitshah009.github.io/accident_forecasting_traffic_camera)
+
+### Citation -
+------------------------
+
+```
+@INPROCEEDINGS{8639160,
+  author={A. P. {Shah} and J. {Lamare} and T. {Nguyen-Anh} and A. {Hauptmann}},
+  booktitle={2018 15th IEEE International Conference on Advanced Video and Signal Based Surveillance (AVSS)}, 
+  title={CADP: A Novel Dataset for CCTV Traffic Camera based Accident Analysis}, 
+  year={2018},
+  volume={},
+  number={},
+  pages={1-9},}
+```
