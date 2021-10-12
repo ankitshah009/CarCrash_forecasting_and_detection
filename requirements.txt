@@ -13,7 +13,7 @@ glog==0.3.1
 keras==2.2.0
 tensorflow==1.8.0
 tensorflow-gpu==1.8.0
-opencv-contrib-python==3.4.2.16
+opencv-contrib-python==4.2.0.32
 pydrive==1.2.1
 oauth2client==3.0.0
 tqdm
